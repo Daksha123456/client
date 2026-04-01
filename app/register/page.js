@@ -1,7 +1,7 @@
-"Use client";
+"use client";
 
 import { useState } from "react";
-import API from "../../services/api"
+import API from "../../services/api.js"
 import { useRouter } from "next/navigation";
 import Link from "next/link"
 

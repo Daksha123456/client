@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import API from "../../services/api"
+import API from "../../services/api.js"
 import { useRouter } from "next/navigation"
 
 export default function dashBoardPage(){
@@ -15,7 +15,7 @@ export default function dashBoardPage(){
         if(!token){
             router.push("/login")
         }else{
-            fetchProfile();
+            fetchUserProfile();
         }
     },[]);
 
