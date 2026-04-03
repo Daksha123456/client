@@ -9,32 +9,31 @@ export default function dashBoardPage(){
     const [user,setUser] = useState(null);
     const router=useRouter();
 
+     //fetch user profile
+
     //protect route
     useEffect(()=>{
-        const token=localStorage.getItem("token")
-
-        if(!token){
-            router.push("/login")
-        }else{
-            fetchUserProfile();
-        }
-    },[]);
-
-    //fetch user profile
-    const fetchUserProfile=async ()=>{
+        const fetchUserProfile=async ()=>{
         try {
-            const {data}=await API.get("users/profile");
-            console.log("dashboard data:",data);
-            
-            setUser(data);
+            const response=await API.get("/users/profile");
+            console.log("dashboard full data:",response);
+            console.log("profile data",response.data)
+
+            if(response.data){
+                console.log("User data found in response:", response.data.user);
+            setUser(response.data);
+
+            } else {
+                console.log("User data not found in response:", response.data);
+            }
         } catch (error) {
             console.log("dashboard error",error.response?.data || error.message);
             router.push("/login")
-            
-        }
-    }
+        }}
+        fetchUserProfile();
+    },[]);
 
-    const logoutHandler=()=>{
+       const logoutHandler=()=>{
         localStorage.removeItem("token");
         router.push("/login");  
     }
@@ -47,7 +46,7 @@ export default function dashBoardPage(){
         )}
 
         return(
-            <div className="p-6 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800 min-h-screen text-white">
+            <div className="p-6 bg-linear-to-br from-slate-900 via-indigo-900 to-slate-800 min-h-screen text-white">
                 //Navbar
                 <div className="flex justify-between items-center px-10 py-6 border-b border-white/10 mb-4">
                     <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
